@@ -7,6 +7,77 @@ hide:
 
 ## Latest Changes
 
+## 0.156.4 (2026-10-21)
+
+### Fixes
+
+* 🐛 Fix `AliasChoices` for named JSON body parameters. PR [#16559](https://github.com/fastapi/fastapi/pull/16559) by [@tiangolo](https://github.com/tiangolo).
+* 🐛 Fix `AliasChoices` extraction for form models. PR [#16557](https://github.com/fastapi/fastapi/pull/16557) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.156.3 (2026-10-20)
+
+### Fixes
+
+* 🐛 Fix `AliasChoices` for query parameters, headers, and cookies. PR [#16555](https://github.com/fastapi/fastapi/pull/16555) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.156.2 (2026-10-20)
+
+### Fixes
+
+* 🐛 Preserve Pydantic field metadata in inferred request parameters. PR [#16553](https://github.com/fastapi/fastapi/pull/16553) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.156.1 (2026-10-20)
+
+### Fixes
+
+* 🐛 Preserve Pydantic field metadata when request options are omitted. PR [#16549](https://github.com/fastapi/fastapi/pull/16549) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.156.0 (2026-10-20)
+
+### Fixes
+
+* 🐛 Preserve Pydantic `Field()` attributes in request parameters. PR [#16547](https://github.com/fastapi/fastapi/pull/16547) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.155.0 (2026-10-20)
+
+The deprecated `**extra` keyword arguments have been removed from `Path`, `Query`, `Header`, `Cookie`, `Body`, `Form`, and `File`. Unknown keyword arguments now raise `TypeError`. For additional JSON Schema properties, replace, for example, `Query(custom="value")` with `Query(json_schema_extra={"custom": "value"})`.
+
+### Breaking Changes
+
+* 🔥 Remove deprecated `**extra` from request parameters. PR [#16545](https://github.com/fastapi/fastapi/pull/16545) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.154.0 (2026-10-20)
+
+### Features
+
+* ✨ Add Pydantic validation options to request parameters. PR [#16542](https://github.com/fastapi/fastapi/pull/16542) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.153.0 (2026-10-20)
+
+Unions of form models now apply the same browser form handling as individual models. Empty scalar fields use defaults or produce missing-field errors, empty list items are preserved, omitted boolean fields become `False`, and unselected files are treated as missing. JSON request bodies are unchanged.
+
+### Fixes
+
+* 🐛 Apply browser form handling to unions of Pydantic models. PR [#16540](https://github.com/fastapi/fastapi/pull/16540) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.152.0 (2026-10-20)
+
+Validation errors for header parameter models now report the HTTP header name, such as `int-val`, instead of the Python field name, `int_val`. Explicit aliases, `Header(convert_underscores=False)`, and Pydantic models with `loc_by_alias=False` keep their existing behavior.
+
+### Fixes
+
+* 🐛 Fix header model validation errors to report HTTP header names. PR [#16538](https://github.com/fastapi/fastapi/pull/16538) by [@tiangolo](https://github.com/tiangolo).
+
+## 0.151.0 (2026-10-20)
+
+JSON request bodies now distinguish an explicit `null` from an omitted value. For individual `Body` parameters, `null` is validated as `None`: nullable types accept it, and non-nullable types reject it even when a default is defined. Defaults and default factories apply only when the value is omitted. This applies both to parameters inside JSON objects and to parameters representing the entire body. Clients that used `null` to request a default should omit the value instead.
+
+When a JSON object is expected because of `Body(embed=True)` or multiple body parameters, sending `null` as the entire body now returns a validation error.
+
+### Breaking Changes
+
+* 🐛 Distinguish JSON null from omitted body values. PR [#16536](https://github.com/fastapi/fastapi/pull/16536) by [@tiangolo](https://github.com/tiangolo).
+
 ## 0.150.0 (2026-10-20)
 
 When no file is selected, browsers submit a file part with an empty filename and empty content. FastAPI now treats this as missing: required file fields return a validation error, and fields with defaults or default factories use them. Unselected inputs are ignored in lists of files. Named zero-byte files are still accepted.
